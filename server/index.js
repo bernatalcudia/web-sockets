@@ -1,6 +1,10 @@
 import { Server } from 'socket.io';
 
-const io = new Server(3000)
+const io = new Server(3000, {
+    cors: {
+        origin: "*"
+    }
+});
 
 io.on('connection', (socket) => {
     console.log('connection received')
@@ -12,3 +16,8 @@ io.on('connection', (socket) => {
         socket.emit('response', 'with oreo and cheesecake')
     })
 })
+
+
+socket.on('message', (arg) => {
+    io.emit('response', `${socket.id} send: ${arg}`);
+});
